@@ -2,7 +2,7 @@
 extern "C"
 {
     #include "../src/Event.h"
-    #include "../src/Methods.h"
+    #include "test_src/Methods.h"
 }
 
 TEST(EventSystem, create_event_through_struct)
