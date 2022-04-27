@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.20)
 
 set(This ExampleTests)
 
-set(TestSources Tests.cpp)
+set(TestSources Event.Tests.cpp)
 
-set(TestMethods test_src/Methods.c
-                test_src/Methods.h)
+set(TestMethods event_helpers/Methods.c
+                event_helpers/Methods.h)
 
 add_executable(${This} ${TestSources} ${Sources} ${TestMethods})
 

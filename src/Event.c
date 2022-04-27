@@ -17,8 +17,8 @@ static struct Event mEventStorage[MAX_EVENTS];
 static EventPtr mEventPointers[MAX_EVENTS];
 static uint8_t mNextUnusedEvent;
 
-static bool Event_internal_getElementIndex(EventPtr event, void (*ptr)(void), int* index);
-static void Event_internal_wipeAllListeners(EventPtr event);
+static bool getElementIndex(EventPtr event, void (*ptr)(void), int* index);
+static void wipeAllListeners(EventPtr event);
 
 
 
@@ -37,7 +37,7 @@ EventPtr Event_createNew()
         return 0; 
 
     EventPtr evPtr = mEventPointers[mNextUnusedEvent];
-    Event_internal_wipeAllListeners(evPtr);
+    wipeAllListeners(evPtr);
     mNextUnusedEvent++;
     return evPtr;
 }
@@ -64,7 +64,7 @@ uint8_t Event_addListener(EventPtr event, void (*ptr)(void))
 uint8_t Event_removeListener(EventPtr event, void (*ptr)(void))
 {
     int i;
-    if(!Event_internal_getElementIndex(event,ptr,&i))
+    if(!getElementIndex(event,ptr,&i))
         return -1;
     
     event->fun_ptr_arr[i] = (NULL);
@@ -95,7 +95,7 @@ uint8_t Event_getTotalEvents()
     return mNextUnusedEvent;
 }
 
-void Event_internal_wipeAllListeners(EventPtr event)
+void wipeAllListeners(EventPtr event)
 {
     for (size_t i = 0; i < event->currentRegisteredListeners; i++)
     {
@@ -104,7 +104,7 @@ void Event_internal_wipeAllListeners(EventPtr event)
     event->currentRegisteredListeners = 0;
 }
 
-static bool Event_internal_getElementIndex(EventPtr event, void (*ptr)(void), int* index)
+static bool getElementIndex(EventPtr event, void (*ptr)(void), int* index)
 {
     for (size_t i = 0; i < event->currentRegisteredListeners; i++)
     {
